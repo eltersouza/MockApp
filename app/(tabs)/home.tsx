@@ -1,8 +1,8 @@
-import { View, Text, ScrollView, FlatList, TouchableOpacity, ImageBackground } from 'react-native'
-import React, { useState } from 'react'
+import { View, Text, ScrollView, LogBox } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import HorizontalCarrousel from '@/components/HorizontalCarrousel';
-import CarrouselItem, { CarrouselItemModel } from '@/components/CarrouselItem';
+import { CarrouselItemModel } from '@/components/CarrouselItem';
 import VerticalCarrousel from '@/components/VerticalCarrousel';
 
 const Home = () => {
@@ -21,26 +21,32 @@ const Home = () => {
 
   const [activeItem, setActiveItem] = useState(list[0]);
 
+  useEffect(() =>{
+    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
+  }, []);
+
   return (
     <SafeAreaView className='bg-primary flex-1'>
-      <View className='px-2 md:px-4 mt-4'>
-        <Text className='text-white font-plight'>Welcome back,</Text>
-        <Text className='text-secondary font-pmedium text-3xl'>Elter</Text>
-      </View>
+      <ScrollView>
+        <View className='px-2 md:px-4 mt-4'>
+          <Text className='text-white font-plight'>Welcome back,</Text>
+          <Text className='text-secondary font-pmedium text-3xl'>Elter</Text>
+        </View>
 
-      <View className="w-full pt-5 pb-8 px-2">
-        <Text className="text-lg font-pregular text-gray-100 mb-3">
-          Latest Videos
-        </Text>
+        <View className="w-full pt-5 pb-8 px-2">
+          <Text className="text-lg font-pregular text-gray-100 mb-3">
+            Latest Videos
+          </Text>
 
-        <HorizontalCarrousel items={list} />
-      </View>
-      <View className="w-full pt-5 pb-8 px-2">
-        <Text className="text-lg font-pregular text-gray-100 mb-3">
-          Latest Videos
-        </Text>
-        <VerticalCarrousel items={list} />
-      </View>
+          <HorizontalCarrousel items={list} />
+        </View>
+        <View className="w-full pt-5 pb-8 px-2">
+          <Text className="text-lg font-pregular text-gray-100 mb-3">
+            Latest Videos
+          </Text>
+          <VerticalCarrousel items={list} />
+        </View>
+      </ScrollView>
     </SafeAreaView>
   )
 }

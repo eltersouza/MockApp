@@ -9,7 +9,7 @@ import React, { useState } from "react";
 
 const Welcome = () => {
     const [loading, setLoading] = useState(false);
-    const [isLogged, setIsLogged] = useState(true)
+    const [isLogged, setIsLogged] = useState(false)
 
     if (!loading && isLogged) return <Redirect href="/home" />;
 
