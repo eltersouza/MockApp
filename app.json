@@ -33,6 +33,10 @@
       "typedRoutes": true
     },
     "name": "MockApp",
-    "slug": "MockApp"
+    "slug": "MockApp",
+    "scheme": "MockApp",
+    "android": {
+      "package": "com.fox.mockapp"
+    }
   }
 }

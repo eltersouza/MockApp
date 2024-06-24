@@ -1,84 +1,85 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
-import { Pressable } from 'react-native';
-import { BottomTabBarButtonProps } from '@react-navigation/bottom-tabs';
-import { TabBarIcon } from '@/components/navigation/TabBarIcon';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
-import { useTextStyles } from '@/hooks/useTextStyles';
+import { View, Text, Image } from 'react-native'
+import React, { useState } from 'react'
+import { Tabs } from 'expo-router'
+import { icons } from '@/constants';
+import { Loader } from '@/components';
+import { StatusBar } from 'expo-status-bar';
 
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
-  const textStyles = useTextStyles();
-
-  const tabBarButton = (props: BottomTabBarButtonProps) => {
-    const style: any = props.style ?? {};
+const TabIcon = ({ icon, color, name, focused }: any) => {
     return (
-      <Pressable
-        {...props}
-        style={({ pressed, focused }) => [
-          style,
-          {
-            opacity: pressed || focused ? 0.6 : 1.0,
-          },
-        ]}
-      />
+        <View className="flex items-center justify-center gap-2 w-[100px]">
+            <Image
+                source={icon}
+                resizeMode="contain"
+                tintColor={color}
+                className="w-6 h-6"
+            />
+            <Text
+                className={`${focused ? "font-psemibold" : "font-pregular"} text-xs`}
+                style={{ color: color }}
+            >
+                {name}
+            </Text>
+        </View>
     );
-  };
+};
 
-  return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        tabBarStyle: {
-          height: textStyles.title.lineHeight * 2,
-          marginBottom: 0,
-        },
-        headerShown: false,
-      }}
-    >
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: 'Home',
-          tabBarButton,
-          tabBarLabelStyle: textStyles.default,
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon
-              name={focused ? 'home' : 'home-outline'}
-              color={color}
-            />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="explore"
-        options={{
-          title: 'Explore',
-          tabBarButton,
-          tabBarLabelStyle: textStyles.default,
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon
-              name={focused ? 'code-slash' : 'code-slash-outline'}
-              color={color}
-            />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="tv_focus"
-        options={{
-          title: 'TV event demo',
-          tabBarButton,
-          tabBarLabelStyle: textStyles.default,
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon
-              name={focused ? 'code-slash' : 'code-slash-outline'}
-              color={color}
-            />
-          ),
-        }}
-      />
-    </Tabs>
-  );
+const TabsLayout = () => {
+
+    const [loading, setLoading] = useState(false)
+
+    return (
+        <>
+            <Tabs
+                screenOptions={{
+                    tabBarActiveTintColor: "#FFA001",
+                    tabBarInactiveTintColor: "#CDCDE0",
+                    tabBarShowLabel: false,
+                    tabBarStyle: {
+                        backgroundColor: "#161622",
+                        borderTopWidth: 1,
+                        borderTopColor: "#232533",
+                        height: 84
+                    },
+                }}
+            >
+                <Tabs.Screen
+                    name="home"
+                    options={{
+                        title: "Home",
+                        headerShown: false,
+                        tabBarIcon: ({ color, focused }) => (
+                            <TabIcon
+                                icon={icons.home}
+                                color={color}
+                                name="Home"
+                                focused={focused}
+                            />
+                        ),
+                    }}
+                />
+                <Tabs.Screen
+                    name="profile"
+                    options={{
+                        title: "Profile",
+                        headerShown: false,
+                        tabBarIcon: ({ color, focused }) => (
+                            <TabIcon
+                                icon={icons.profile}
+                                color={color}
+                                name="Profile"
+                                focused={focused}
+                            />
+                        ),
+                    }}
+                />
+            </Tabs>
+
+
+            <Loader isLoading={loading} />
+            <StatusBar backgroundColor="#161622" style="light" />
+        </>
+    )
 }
+
+export default TabsLayout
